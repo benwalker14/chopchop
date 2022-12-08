@@ -9,6 +9,7 @@ Currently, playback in VLC of a chopchop-generated .m3u file will skip from time
 ##### Create an EDL
 * Create a new text file
 * On each line, you can enter the timecode that you want to view in the final result. In this format:
+
 0:00:00 to 0:05:04  
 0:05:13 to 0:05:47  
 0:05:50 to 0:07:28  
