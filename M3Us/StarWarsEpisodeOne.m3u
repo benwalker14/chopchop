@@ -1,0 +1,8 @@
+#EXTM3U
+#EXTINF:8170,StarWarsEpisodeOne.mp4
+#EXTVLCOPT:start-time=0
+#EXTVLCOPT:stop-time=7457
+StarWarsEpisodeOne.mp4
+#EXTVLCOPT:start-time=7470
+#EXTVLCOPT:stop-time=8170
+StarWarsEpisodeOne.mp4
