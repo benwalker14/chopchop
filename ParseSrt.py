@@ -1,33 +1,38 @@
+import pysrt
 import re
 
-def findBeepBoopTimes(filename):
-    # Read SRT file content
-    with open(filename, 'r') as file:
-        fileContent = file.read()
-    
-    # Split file content into individual subtitle entries
-    entries = fileContent.strip().split('\n\n')
-    
-    beepBoopTimes = []
-    
-    # Parse each subtitle entry and check for 'beep' or 'boop' in the text
-    for entry in entries:
-        # Split entry into lines and extract start time, end time, and text
-        lines = entry.split('\n')
-        startTime, endTime = map(timeToSeconds, lines[1].split(' --> '))
-        text = '\n'.join(lines[2:])
-        
-        # Check if text contains 'beep' or 'boop'
-        if re.search(r'\b(damn|bitch)\b', text, re.IGNORECASE):
-            beepBoopTimes.append((startTime, endTime))
-    
-    return beepBoopTimes
+def load_profanity_list():
+    return ["badword1", "badword2", "badword3"]  # Replace with a more comprehensive list
 
-def timeToSeconds(timeString):
-    x = timeString[:8]
-    # Convert h:m:s time string to total number of seconds
-    h, m, s = map(int, x.split(':'))
-    return h * 3600 + m * 60 + s
+def contains_profanity(text, profanity_list):
+    for word in profanity_list:
+        if re.search(r'\b' + re.escape(word) + r'\b', text, re.IGNORECASE):
+            return True
+    return False
 
-times = findBeepBoopTimes(r'C:\Users\Ben\Downloads\TheItalianJob.srt')
-print(times)
+def find_profanity_timecodes(srt_file, profanity_list):
+    profanity_timecodes = []
+    subs = pysrt.open(srt_file, encoding='iso-8859-1')
+    
+    for sub in subs:
+        if contains_profanity(sub.text, profanity_list):
+            start_time = sub.start.to_time()
+            end_time = sub.end.to_time()
+            profanity_timecodes.append((start_time, end_time))
+
+    return profanity_timecodes
+
+def main():
+    srt_file = "example.srt"  # Replace with your SRT file
+    profanity_list = load_profanity_list()
+    profanity_timecodes = find_profanity_timecodes(srt_file, profanity_list)
+    
+    if profanity_timecodes:
+        print("Profanity timecodes found:")
+        for start, end in profanity_timecodes:
+            print(f"{start} - {end}")
+    else:
+        print("No profanity found.")
+
+if __name__ == "__main__":
+    main()
