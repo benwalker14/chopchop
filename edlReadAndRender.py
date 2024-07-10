@@ -19,7 +19,6 @@ class Application(tk.Frame):
         self.status_label = ttk.Label(self, text="Ready", style='TLabel')
         self.status_label.grid(row=3, column=0, columnspan=3, pady=10, sticky='w')
 
-
         # Define colors for the custom theme
         bg_color = '#F5F5F5'  # Light Grey
         fg_color = '#333333'  # Dark Grey
@@ -94,6 +93,20 @@ class Application(tk.Frame):
         with open(self.full_filepath) as f:
             content = f.readlines()
 
+        # Check for overlapping timestamps
+        timestamps = []
+        for line in content:
+            start, stop = line.strip().split(' to ')
+            start_sec = get_sec(start)
+            stop_sec = get_sec(stop)
+            timestamps.append((start_sec, stop_sec))
+
+        timestamps.sort()
+        for i in range(1, len(timestamps)):
+            if timestamps[i][0] < timestamps[i-1][1]:
+                self.status_label.config(text="Error: Overlapping timestamps found. Please fix the EDL file.")
+                return
+
         with open(f'{filename_without_extension}.m3u', 'w') as f_out:
             f_out.write('#EXTM3U\n')
             for i, line in enumerate(content):
@@ -104,7 +117,6 @@ class Application(tk.Frame):
                 f_out.write(f'{output_filename}\n')
 
         self.status_label.config(text="Conversion complete!")
-
 
 root = tk.Tk()
 root.title("EDL Converter")
