@@ -7,8 +7,12 @@ BackToTheFuture.mp4
 #EXTVLCOPT:start-time=195
 #EXTVLCOPT:stop-time=348
 BackToTheFuture.mp4
-#EXTINF:222,BackToTheFuture.mp4
+#EXTINF:204,BackToTheFuture.mp4
 #EXTVLCOPT:start-time=350
+#EXTVLCOPT:stop-time=554
+BackToTheFuture.mp4
+#EXTINF:10,BackToTheFuture.mp4
+#EXTVLCOPT:start-time=562
 #EXTVLCOPT:stop-time=572
 BackToTheFuture.mp4
 #EXTINF:20,BackToTheFuture.mp4
